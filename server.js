@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const pool = new Pool({
   user: 'USER',
-  host: 'HOST',
+  host: HOST,
   database: 'DATABASE',
   password: 'PASSWORD',
   port: PORT
