@@ -1,7 +1,6 @@
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
