@@ -1,30 +1,23 @@
 const express = require('express');
+const { Pool } = require('pg');
 const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 // Middleware
-app.use(cors({
-  origin: 'https://trio-foods-api.herokuapp.com/',
-  credentials: true
-}));
-app.use((req, res, next) => {
-  res.headers(
-    'Access-Control-Allow-Origin', '*');
-  next();
-});
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
-const { Pool } = require('pg');
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  user: 'USER',
+  host: 'HOST',
+  database: 'DATABASE',
+  password: 'PASSWORD',
+  port: 'PORT'
 });
 
 
@@ -32,15 +25,14 @@ app.get('/', (req, res) => {
   res.send('trio-foods-quotation-generator-api')
 });
 
-app.get('/db', async (req, res) => {
+app.get('/cape-cheese', async (req, res) => {
   try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM cape_cheese');
-    const results = { 'results': (result) ? result.rows : null };
-    res.render('pages/db', results);
-    client.release();
+    const allCheese = await pool.query('select * from cape_cheese');
+    console.log(allCheese.rows)
+    res.json(allCheese.rows)
+
   } catch (err) {
-    console.error(err);
+    console.error(err.message);
     res.send("Error " + err);
   }
 });
