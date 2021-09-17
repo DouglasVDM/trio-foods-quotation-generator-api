@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 app.get('/cape-cheese', async (req, res) => {
   try {
     const allCheese = await pool.query('SELECT * FROM cape_cheese');
-    console.log(allCheese.rows)
+    console.log('allCheese.row:', allCheese.rows)
     res.json(allCheese.rows)
   } catch (err) {
     console.error(err.message);
