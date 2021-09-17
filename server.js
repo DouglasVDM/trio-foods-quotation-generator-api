@@ -28,10 +28,8 @@ app.get('/cape-cheese', async (req, res) => {
     const allCheese = await pool.query('SELECT * FROM cape_cheese');
     console.log(allCheese.rows)
     res.json(allCheese.rows)
-
   } catch (err) {
     console.error(err.message);
-    res.send("Error " + err);
   }
 });
 
