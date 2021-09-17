@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const CONCURRENCY = process.env.WEB_CONCURRENCY || 1;
 
 // Middleware
 app.use(cors());
@@ -32,6 +33,17 @@ app.get('/cape-cheese', async (req, res) => {
     console.error(err.message);
   }
 });
+
+app.get('/times', (req, res) => res.send(showTimes()))
+
+showTimes = () => {
+  let result = '';
+  const times = process.env.TIMES || 5;
+  for (i = 0; i < times; i++) {
+    result += i + ' ';
+  }
+  return result;
+}
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port: ${PORT}`)
