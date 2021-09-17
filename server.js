@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
 app.get('/cape-cheese', async (req, res) => {
   try {
     const client = await pool.connect();
-    const result = await client.query('SSELECT * FROM cape_cheese');
+    const result = await client.query('SELECT * FROM cape_cheese');
     const results = { 'results': (result) ? result.rows : null };
     res.render('/cape-cheese', results);
     client.release();
