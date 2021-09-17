@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 const pool = new Pool({
   user: process.env.USER,
   host: process.env.HOST,
-  database: process.env.DATABASE,
+  database: process.env.DATABASE_URL,
   password: process.env.PASSWORD,
   port: process.env.PORT
 });
