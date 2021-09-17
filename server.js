@@ -11,10 +11,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const pool = new Pool({
-  user: 'USER',
-  host: 'HOST',
-  database: 'DATABASE',
-  password: 'PASSWORD',
+  user: USER,
+  host: HOST,
+  database: DATABASE,
+  password: PASSWORD,
   port: PORT
 });
 
