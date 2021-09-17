@@ -11,13 +11,21 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 const pool = new Pool({
-  user: process.env.USER,
-  host: process.env.HOST,
-  database: process.env.DATABASE_URL,
-  password: process.env.PASSWORD,
-  port: process.env.PORT
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
+
+// const pool = new Pool({
+//   user: process.env.USER,
+//   host: process.env.HOST,
+//   database: process.env.DATABASE_URL,
+//   password: process.env.PASSWORD,
+//   port: process.env.PORT
+// });
 
 
 app.get('/', (req, res) => {
@@ -26,13 +34,26 @@ app.get('/', (req, res) => {
 
 app.get('/cape-cheese', async (req, res) => {
   try {
-    const allCheese = await pool.query('SELECT * FROM cape_cheese');
-    console.log('allCheese.row:', allCheese.rows)
-    res.json(allCheese.rows)
+    const client = await pool.connect();
+    const result = await client.query('SSELECT * FROM cape_cheese');
+    const results = { 'results': (result) ? result.rows : null };
+    res.render('/cape-cheese', results);
+    client.release();
   } catch (err) {
-    console.error(err.message);
+    console.error(err);
+    res.send("Error " + err);
   }
-});
+})
+
+// app.get('/cape-cheese', async (req, res) => {
+//   try {
+//     const allCheese = await pool.query('SELECT * FROM cape_cheese');
+//     console.log('allCheese.row:', allCheese.rows)
+//     res.json(allCheese.rows)
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// });
 
 app.get('/times', (req, res) => res.send(showTimes()))
 
