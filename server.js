@@ -36,11 +36,13 @@ app.get('/cape-cheese', async (req, res) => {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM cape_cheese');
     const results = { 'results': (result) ? result.rows : null };
+    console.log(result ? 'This was a success! ' + result : 'This was a failure.')
     res.send('/cape-cheese', result);
     client.release();
   } catch (err) {
     console.error(err);
     res.send("Error " + err);
+    process.exit(1)
   }
 })
 
