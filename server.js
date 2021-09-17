@@ -4,7 +4,6 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const CONCURRENCY = process.env.WEB_CONCURRENCY || 1;
 
 // Middleware
 app.use(cors());
